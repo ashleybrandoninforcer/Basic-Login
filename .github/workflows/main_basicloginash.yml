@@ -59,4 +59,4 @@ jobs:
           app-name: 'basicloginash'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B65257B17FAF42039B64B4E2F55C267E }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E0810B42240F46FDA92BC9FAE15DB06A }}
