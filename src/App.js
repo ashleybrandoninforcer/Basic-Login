@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import { Login, Logout, Nav, Home, About, News } from './Components'
+import { HashRouter as Router, Route, Link, Routes } from 'react-router-dom'
 
-function App() {
+//Styles
+import './App.css'
+
+//Google Analytics
+import ReactGA from 'react-ga'
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_CODE)
+
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    () => JSON.parse(localStorage.getItem('BasicLoginAuth') || false)
+  )
+
+ const handleLogin = () => {
+  setIsLoggedIn(true)
+  localStorage.setItem('BasicLoginAuth', true)
+ }
+
+ const handleLogout = () => {
+  setIsLoggedIn(false)
+  localStorage.removeItem('BasicLoginAuth')
+ }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {!isLoggedIn ? (
+        <Login onLogin={handleLogin} />
+      ) : (
+        <>
+          <Nav />
+          <Routes>
+            <Route path="*" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/news" element={<News />} />
+          </Routes>
+          <Logout onLogout={handleLogout} />
+        </>
+      )}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
